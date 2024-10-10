@@ -11,7 +11,7 @@ include "./layouts/header.php";
         <div class="max-w-screen-2xl flex flex-col mx-auto p-4">
             <h1 class="text-3xl font-bold">Welcome back, <?= $_SESSION['user']['username'] ?> !</h1>
 
-            <div class="rounded-lg bg-gray-400 p-6 mt-4">
+            <div class="rounded-lg shadow-lg dark:bg-gray-600 p-6 mt-4">
                 <div class="mb-10">
                     <h2 class="text-xl font-semibold mb-6">Events List</h2>
                     <div class="relative overflow-x-auto">
