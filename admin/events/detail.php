@@ -16,13 +16,13 @@ if (!$event) header("location: /admin/events");
 
 include "../layouts/header.php";
 ?>
-    <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white h-auto pb-10">
+    <div class="bg-white text-gray-900 h-auto pb-10">
         <div class="max-w-screen-2xl flex flex-col mx-auto p-4">
             <h1 class="text-3xl font-bold">Event Detail: <?= $event['nama'] ?></h1>
 
-            <div class="rounded-lg shadow-lg dark:bg-gray-600 p-6 mt-10">
+            <div class="rounded-lg shadow-lg p-6 mt-10">
                 <a href="/admin/events/"
-                   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kembali</a>
+                   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Kembali</a>
 
                 <h1 class="text-2xl md:text-3xl lg:text-4xl mt-10 font-bold text-center"><?= $event['nama'] ?></h1>
                 <div class="grid grid-cols-2 gap-6 mt-12">

@@ -7,16 +7,16 @@ if ($_SESSION["role"] != "admin") {
 }
 include "./layouts/header.php";
 ?>
-    <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white h-screen">
+    <div class="bg-white h-screen">
         <div class="max-w-screen-2xl flex flex-col mx-auto p-4">
             <h1 class="text-3xl font-bold">Welcome back, <?= $_SESSION['user']['username'] ?> !</h1>
 
-            <div class="rounded-lg shadow-lg dark:bg-gray-600 p-6 mt-4">
+            <div class="rounded-lg shadow-lg p-6 mt-4">
                 <div class="mb-10">
                     <h2 class="text-xl font-semibold mb-6">Events List</h2>
                     <div class="relative overflow-x-auto">
                         <table id="events-table-dashboard"
-                               class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                               class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -60,7 +60,7 @@ include "./layouts/header.php";
                     <h2 class="text-xl font-semibold mb-6">Users List</h2>
                     <div class="relative overflow-x-auto">
                         <table id="users-table-dashboard"
-                               class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                               class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
