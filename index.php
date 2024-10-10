@@ -1,6 +1,6 @@
 <?php
-include 'assets/header.php';
-include 'assets/navbar.php';
+include 'layouts/header.php';
+include 'layouts/navbar.php';
 include 'connection/connection.php';
 
 $sql = 'SELECT namaEvent, descEvent, eventDate  FROM event';
@@ -10,5 +10,5 @@ $events = $stmt->fetchAll();
 ?>
 
 <?php
-include 'assets/footer.php';
+include 'layouts/footer.php';
 ?>
