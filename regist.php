@@ -1,12 +1,12 @@
 <?php
-include './connection/connection.php';
 session_start();
-
 // Check if user is already logged in
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
     header("Location: /user/index.php"); // Redirect to user dashboard
     exit;
 }
+
+include './connection/connection.php';
 
 if (isset($_POST['register'])) {
     $username = $_POST['username'];
