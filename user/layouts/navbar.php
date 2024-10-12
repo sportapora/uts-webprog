@@ -1,38 +1,18 @@
 <?php
+
 session_start();
+include '../../connection/connection.php';
 
-// Cek apakah pengguna sudah login (session id_user ada)
-if (isset($_SESSION['id_user'])) {
-  $id_user = $_SESSION['id_user'];
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+ 
+  $user = $_SESSION['user'];
+  $username = $user['username'];
+  $email = $user['email'];
 
-  // Ambil data user dari database berdasarkan id_user
-  $sql = 'SELECT username, email FROM users WHERE id = ?';
-  $stmt = $connection->prepare($sql);
-  $stmt->bind_param('i', $id_user);  // Bind parameter
-  $stmt->execute();
-  $result = $stmt->get_result();
-
-  if ($result->num_rows > 0) {
-      $user = $result->fetch_assoc();  // Ambil data user
-      $username = $user['username'];   // Simpan username
-      $email = $user['email'];         // Simpan email
-  } else {
-      // Jika user tidak ditemukan
-      $username = 'Guest';
-      $email = '';
-  }
 } else {
-  // Jika user belum login
-  $username = 'Guest';
-  $email = '';
+  header("Location: /login.php");
+  exit();
 }
-// include './connection/connection.php';
-
-// $sql = 'SELECT id, username, email status FROM users';
-// $stmt = $connection->prepare($sql);
-// $stmt->execute();
-// $users = $stmt->fetchAll();
-// 
 ?>
 
 <!-- Navbar User -->
@@ -57,10 +37,10 @@ if (isset($_SESSION['id_user'])) {
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
           <li>
-            <a href="./user_profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+            <a href="/user/profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
           </li>
           <li>
-            <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            <a href="/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
           </li>
         </ul>
       </div>

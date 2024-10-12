@@ -1,10 +1,20 @@
 <?php
 session_start();
 
-// if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) header("location: /login.php");
-// if ($_SESSION["role"] != "user") {
-//     die(403);
-// }
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // If not logged in, redirect to the login page or show a message
+    header("Location: /login.php");
+    exit();
+}
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // If not logged in, redirect to the login page or show a message
+    header("Location: /login.php");
+    exit();
+}
+
+// Now you can use $_SESSION['user'] to access user information
+// echo "Welcome, " . htmlspecialchars($_SESSION['user']['username']) . "!";
 
 include 'layouts/header.php';
 include 'layouts/navbar.php';
@@ -67,7 +77,7 @@ $events = $stmt->fetchAll();
                     <th scope="col" class="px-6 py-3">Event Date</th>
                     <th scope="col" class="px-6 py-3">Event Time</th>
                     <th scope="col" class="px-6 py-3">Event Location</th>
-                    <th scope="col" class="px-6 py-3">Event Capacity</th>
+                    <th scope="coio class="px-6 py-3">Event Capacity</th>
                     <th scope="col" class="px-6 py-3">Event Image</th>
                     <th scope="col" class="px-6 py-3">Event Banner</th>
                     <th scope="col" class="px-6 py-3">Description</th>
