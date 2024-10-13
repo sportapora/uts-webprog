@@ -12,7 +12,7 @@
     <title>Event Management - Dashboard</title>
 </head>
 <body>
-<nav class="bg-gray-300 border-gray-200 shadow-md">
+<nav class="bg-sky-100 shadow-md">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-700">Event Management</span>
@@ -30,17 +30,19 @@
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-transparent md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
                 <li>
                     <a href="/admin"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                       class="block py-2 px-3 <?php if ($_SERVER['REQUEST_URI'] == '/admin') echo 'bg-blue-700 text-white md:text-blue-700 md:bg-transparent'; else echo 'md:text-gray-900 hover:bg-gray-100'; ?> rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                        aria-current="page">Home</a>
                 </li>
                 <li>
                     <a href="/admin/events"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+                       class="block py-2 px-3 <?php if ($_SERVER['REQUEST_URI'] == '/admin/events') echo 'bg-blue-700 text-white md:text-blue-700 md:bg-transparent'; else echo 'md:text-gray-900 hover:bg-gray-100'; ?> rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
                        aria-current="page">Events</a>
                 </li>
                 <li>
                     <a href="/admin/users"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Users</a>
+                       class="block py-2 px-3 <?php if ($_SERVER['REQUEST_URI'] == '/admin/users') echo 'bg-blue-700 text-white md:text-blue-700 md:bg-transparent'; else echo 'md:text-gray-900 hover:bg-gray-100'; ?> rounded md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+                        Users
+                    </a>
                 </li>
                 <li>
                     <form action="/logout.php" id="logout-form" class="hidden" method="post"></form>

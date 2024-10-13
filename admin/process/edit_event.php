@@ -36,8 +36,8 @@ if (isset($_POST['submit'])) {
             move_uploaded_file($tmpBanner, "../../assets/events/banner/$banner");
         }
 
-        $statement = $connection->prepare('UPDATE events SET nama = ?, tanggal = ? , waktu = ?, lokasi = ?, jumlah_maks = ?, deskripsi = ?, gambar = ?, banner = ?, status = ? WHERE id = ?');
-        $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $jumlah_maks, $deskripsi, $gambar, $banner, $status, $id));
+        $statement = $connection->prepare('UPDATE events SET nama = ?, tanggal = ? , waktu = ?, lokasi = ?, jumlah_maks = ?, deskripsi = ?, gambar = ?, banner = ?, status = ?, updated_at = ? WHERE id = ?');
+        $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $jumlah_maks, $deskripsi, $gambar, $banner, $status, date('Y-m-4') . ' '. time(), $id));
 
         $_SESSION['message'] = "Berhasil mengupdate data event!";
         header("location: /admin/events");

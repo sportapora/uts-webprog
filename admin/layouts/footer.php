@@ -20,6 +20,18 @@
             sortable: true
         });
     }
+    if (document.getElementById("event-detail-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+        const dataTable = new simpleDatatables.DataTable("#event-detail-table", {
+            searchable: true,
+            sortable: true
+        });
+    }
+    if (document.getElementById("events_users-table") && typeof simpleDatatables.DataTable !== 'undefined') {
+        const dataTable = new simpleDatatables.DataTable("#events_users-table", {
+            searchable: true,
+            sortable: true
+        });
+    }
 </script>
 </body>
 </html>

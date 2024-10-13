@@ -8,20 +8,16 @@ if ($_SESSION["role"] != "admin") {
     die(403);
 }
 
-$query = $connection->query("SELECT * FROM events");
+$query = $connection->query("SELECT * FROM users WHERE role != 'admin'");
 $query->execute();
 
 include "../layouts/header.php";
 ?>
     <div class="bg-white text-gray-900 h-screen">
         <div class="max-w-screen-2xl flex flex-col mx-auto p-4">
-            <h1 class="text-3xl font-bold">Events List</h1>
+            <h1 class="text-3xl font-bold">Users List</h1>
 
             <div class="rounded-lg shadow-lg p-6 mt-10">
-                <a href="/admin/events/create.php"
-                   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Tambah
-                    Event Baru</a>
-
                 <div class="relative overflow-x-auto mt-6">
                     <?php if (isset($_SESSION["message"])) { ?>
                         <div id="alert-3"
@@ -56,16 +52,13 @@ include "../layouts/header.php";
                                 No.
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Nama Event
+                                Username
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Tanggal
+                                Email
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Waktu
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Status
+                                Waktu registrasi
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Aksi
@@ -75,7 +68,7 @@ include "../layouts/header.php";
                         <tbody>
                         <?php
                         $no = 1;
-                        while ($events = $query->fetch(PDO::FETCH_ASSOC)) {
+                        while ($users = $query->fetch(PDO::FETCH_ASSOC)) {
                             ?>
                             <tr class="bg-white border-b">
                                 <th scope="row"
@@ -83,34 +76,27 @@ include "../layouts/header.php";
                                     <?= $no; ?>
                                 </th>
                                 <td class="px-6 py-4">
-                                    <?= $events['nama'] ?>
+                                    <?= $users['username'] ?>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <?= $events['tanggal'] ?>
+                                    <?= $users['email'] ?>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <?= $events['waktu'] ?>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="bg-<?php if ($events['status'] == 'open') echo 'green'; else if ($events['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-100 text-<?php if ($events['status'] == 'open') echo 'green'; else if ($events['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-800 font-medium me-2 px-2.5 py-0.5 rounded-full">
-                                        <?= $events['status'] ?>
-                                    </span>
+                                    <?= $users['created_at'] ?>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex">
-                                        <a href="/admin/events/detail.php?id=<?= $events['id'] ?>"
+                                        <a href="/admin/users/detail.php?id=<?= $users['id'] ?>"
                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Detail</a>
 
-                                        <a href="/admin/events/edit.php?id=<?= $events['id'] ?>"
-                                           class="focus:outline-none inline-block text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Edit</a>
-                                        <button data-modal-target="popup-modal-<?= $events['id'] ?>"
-                                                data-modal-toggle="popup-modal-<?= $events['id'] ?>"
+                                        <button data-modal-target="popup-modal-<?= $users['id'] ?>"
+                                                data-modal-toggle="popup-modal-<?= $users['id'] ?>"
                                                 class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
                                                 type="button">
                                             Delete
                                         </button>
 
-                                        <div id="popup-modal-<?= $events['id'] ?>" tabindex="-1"
+                                        <div id="popup-modal-<?= $users['id'] ?>" tabindex="-1"
                                              class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                             <div class="relative p-4 w-full max-w-md max-h-full">
                                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -136,17 +122,17 @@ include "../layouts/header.php";
                                                         </svg>
                                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                                             Apakah Anda yakin ingin menghapus
-                                                            data <?= $events['nama'] ?>?</h3>
+                                                            data <?= $users['username'] ?>?</h3>
                                                         <div class="flex flex-col md:flex-row gap-4 justify-center">
-                                                            <form action="/admin/process/delete_event.php" method="post">
+                                                            <form action="/admin/process/delete_user.php" method="post">
                                                                 <input type="hidden" name="id"
-                                                                       value="<?= $events['id'] ?>">
+                                                                       value="<?= $users['id'] ?>">
                                                                 <button data-modal-hide="popup-modal" type="submit"
                                                                         class="text-white bg-red-600 justify-center hover:bg-red-800 w-full focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                                                     Yes, I'm sure
                                                                 </button>
                                                             </form>
-                                                            <button data-modal-hide="popup-modal-<?= $events['id'] ?>" type="button"
+                                                            <button data-modal-hide="popup-modal-<?= $users['id'] ?>" type="button"
                                                                     class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                                                 No, cancel
                                                             </button>
@@ -155,7 +141,6 @@ include "../layouts/header.php";
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </td>
                             </tr>
                             <?php $no++;
