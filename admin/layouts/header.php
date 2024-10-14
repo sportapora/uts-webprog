@@ -55,6 +55,3 @@
     </div>
 </nav>
 <div class="bg-white h-screen">
-
-
-
