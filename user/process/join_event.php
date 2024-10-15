@@ -2,34 +2,43 @@
 session_start();
 include_once '../../connection/connection.php';
 
-if (isset($_POST['event_id']) && isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user'])) {
+    $_SESSION['message'] = "Silakan login untuk melanjutkan.";
+    header("Location: /login.php");
+    exit();
+}
+
+if (isset($_POST['event_id'])) {
     $event_id = intval($_POST['event_id']);
-    $user_id = intval($_SESSION['user_id']);  // Pastikan user_id diambil dari session yang sudah divalidasi
+    $user_id = intval($_SESSION['user']['id']);
 
     try {
-        // Cek apakah pengguna sudah terdaftar di event tersebut
-        $checkQuery = "SELECT 1 FROM event_users WHERE user_id = :user_id AND event_id = :event_id";
+        // Cek Jika Apakah User Sudah Terdaftar Pada Event Tersebut
+        $checkQuery = "SELECT 1 FROM events_users WHERE user_id = :user_id AND event_id = :event_id";
         $statement = $connection->prepare($checkQuery);
         $statement->execute([':user_id' => $user_id, ':event_id' => $event_id]);
 
-        if ($statement->fetch()) {
-            // Jika sudah terdaftar
+        if ($statement->fetchColumn()) {
             $_SESSION['message'] = "Anda sudah terdaftar di acara ini!";
         } else {
-            // Daftarkan pengguna ke acara
-            $query = "INSERT INTO event_users (user_id, event_id) VALUES (:user_id, :event_id)";
-            $statement = $connection->prepare($query);
+            // Dafter Dalam Event
+            $insertQuery = "INSERT INTO events_users (user_id, event_id) VALUES (:user_id, :event_id)";
+            $statement = $connection->prepare($insertQuery);
             $statement->execute([':user_id' => $user_id, ':event_id' => $event_id]);
 
             $_SESSION['message'] = "Berhasil bergabung dengan acara!";
         }
 
-        // Redirect kembali ke halaman profil atau halaman event
         header("Location: /user/profile.php");
         exit();
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        error_log("Database error: " . $e->getMessage());
+        $_SESSION['message'] = "Terjadi kesalahan. Silakan coba lagi.";
+        header("Location: /user/profile.php");
+        exit();
     }
 } else {
-    echo "Permintaan tidak valid.";
+    $_SESSION['message'] = "Permintaan tidak valid.";
+    header("Location: /user/profile.php");
+    exit();
 }

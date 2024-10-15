@@ -1,8 +1,5 @@
 <?php
 
-session_start();
-include '../../connection/connection.php';
-
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
  
   $user = $_SESSION['user'];
