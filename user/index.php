@@ -29,7 +29,7 @@ if (empty($events)) {
 ?>
 
 <!-- Search form -->
-<form class="max-w-md mx-auto">
+<form class="max-w-md mx-auto p-4">
     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
     <div class="relative">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -48,7 +48,7 @@ if (empty($events)) {
         <!-- Card Events -->
         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>" data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
-                <img class="rounded-t-lg" src="<?php echo htmlspecialchars($event['gambar']); ?>" alt="Event Image" />
+                <img class="rounded-t-lg" src="/assets/events/<?php echo htmlspecialchars($event['gambar']); ?>" alt="Event Image" />
             </a>
             <div class="p-5">
                 <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>" data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
@@ -89,15 +89,24 @@ if (empty($events)) {
                 <p class="mb-2"><strong>Location:</strong> <?php echo htmlspecialchars($event['lokasi']); ?></p>
                 <p class="mb-2"><strong>Capacity:</strong> <?php echo htmlspecialchars($event['jumlah_maks']); ?></p>
                 <p class="mb-2"><strong>Description:</strong> <?php echo htmlspecialchars($event['deskripsi']); ?></p>
-                <img src="<?php echo htmlspecialchars($event['banner']); ?>" alt="Event Banner" class="w-full h-auto mt-4" />
+                <img src="/assets/events/?php echo htmlspecialchars($event['banner']); ?>" alt="Event Banner" class="w-full h-auto mt-4" />
+
                 <div class="flex justify-end mt-4">
                     <form action="/user/process/join_event.php" method="post">
                         <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
                         <input type="hidden" name="user_id" value="<?php echo $users['id']; ?>">
-                        <button  
-                            class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5" type="submit">
-                            Join Event
-                        </button>
+
+                        <?php if ($event['status'] === 'canceled') : ?>
+                            <button  
+                                class="text-gray-500 bg-gray-300 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5" type="button" disabled>
+                                Event Cancelled
+                            </button>
+                        <?php else : ?>
+                            <button  
+                                class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5" type="submit">
+                                Join Event
+                            </button>
+                        <?php endif; ?>
                     </form>
                 </div>
             </div>
@@ -119,14 +128,6 @@ function openModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.remove('hidden');
 }
-
-// Example: Open modal on some action (adjust as needed)
-document.querySelectorAll('[data-modal-open]').forEach(button => {
-    button.addEventListener('click', () => {
-        const modalId = button.getAttribute('data-modal-open');
-        openModal(modalId);
-    });
-});
 </script>
 
 
