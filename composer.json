@@ -1,0 +1,17 @@
+{
+    "name": "henrysalim/uts",
+    "autoload": {
+        "psr-4": {
+            "Henrysalim\\Uts\\": "admin/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sportapora",
+            "email": "henrysalim22@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^3.3"
+    }
+}
