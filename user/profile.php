@@ -2,7 +2,7 @@
 session_start();
 include './layouts/header.php';
 include './layouts/navbar.php';
-include './connection/connection.php';
+include '../connection/connection.php';
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     // Ambil data user dari session
