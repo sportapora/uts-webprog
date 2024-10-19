@@ -9,13 +9,29 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+    <style>
+        #logo {
+            font-family: "Monoton", sans-serif;;
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+        }
+    </style>
+
     <title>Event Management - Dashboard</title>
 </head>
 <body>
 <nav class="bg-sky-100 shadow-md">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-700">Event Management</span>
+            <span class="self-center text-3xl font-semibold whitespace-nowrap text-blue-700" id="logo">Festivo!</span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
