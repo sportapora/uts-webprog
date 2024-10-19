@@ -28,12 +28,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       <!-- Dropdown menu -->
       <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
         <div class="px-4 py-3">
-          <span class="block text-sm text-gray-900"><?php echo $username; ?></span>
-          <span class="block text-sm text-gray-500 truncate"><?php echo $email; ?></span>
+          <a href="/user/profile.php">
+            <span class="block text-sm text-gray-900"><?php echo $username; ?></span>
+            <span class="block text-sm text-gray-500 truncate"><?php echo $email; ?></span>
+          </a>
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
           <li>
-            <a href="/user/profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+            <a href="/user/dashboard.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
           </li>
           <li>
             <a href="/logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
