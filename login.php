@@ -25,11 +25,10 @@ if (isset($_POST['login'])) {
             if ($user['role'] == 'admin') {
                 $_SESSION['role'] = 'admin';
                 header("Location: /admin");
+            } else if ($user['role'] == 'user') {
+                $_SESSION['role'] = 'user';
+                header("Location: /user/index.php");
             }
-
-        } else if ($user['role'] == 'user') {
-            $_SESSION['role'] = 'user';
-            header("Location: /user/index.php");
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Terdapat error! Silakan coba lagi.";
@@ -128,7 +127,8 @@ if (isset($_POST['login'])) {
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
                 <div class="mb-8">
-                    <p>Belum memiliki akun? <a href="/register.php" class="text-blue-700 underline">Register</a> di sini</p>
+                    <p>Belum memiliki akun? <a href="/register.php" class="text-blue-700 underline">Register</a> di sini
+                    </p>
                 </div>
 
                 <button type="submit"
