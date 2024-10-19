@@ -10,7 +10,7 @@ if ($_SESSION['user']["role"] != "admin") {
 $query = $connection->prepare("select eu.event_id as event_id, eu.user_id, e.nama as nama, eu.created_at as created_at
                                         from events_users eu
                                         inner join events e on eu.event_id = e.id
-                                        inner join users u on eu.user_id = ?");
+                                        inner join users u on eu.user_id = u.id where u.id = ?");
 $query->execute([$_GET["id"]]);
 
 include "../layouts/header.php";

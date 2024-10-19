@@ -1,7 +1,5 @@
 <?php
 
-use Carbon\Carbon;
-
 include '../../connection/connection.php';
 
 session_start();
@@ -18,9 +16,9 @@ $event = $queryEvent->fetch(PDO::FETCH_ASSOC);
 
 $queryEventDetail = $connection->prepare("select eu.event_id, eu.user_id, u.email as email, u.username as username, eu.created_at as created_at 
                                                     from events_users eu 
-                                                    inner join events e on eu.event_id = ? 
-                                                    inner join users u on eu.user_id = ?");
-$queryEventDetail->execute([$_GET["id"], $_SESSION['user']["user_id"]]);
+                                                    inner join events e on eu.event_id = e.id 
+                                                    inner join users u on eu.user_id = u.id where e.id = ?");
+$queryEventDetail->execute([$_GET["id"]]);
 
 if (!$event) header("location: /admin/events");
 
@@ -117,12 +115,14 @@ include "../layouts/header.php";
                 <div class="flex flex-col lg:flex-row gap-6 mt-10">
                     <div class="w-full lg:w-1/2">
                         <p class="font-bold">Gambar event</p>
-                        <img src="../../assets/events/gambar/<?= $event['gambar'] ?>" class="w-full md:w-[320px] rounded-md mt-4"
+                        <img src="../../assets/events/gambar/<?= $event['gambar'] ?>"
+                             class="w-full md:w-[320px] rounded-md mt-4"
                              alt="<?= $event['nama'] ?>">
                     </div>
                     <div class="w-full lg:w-1/2">
                         <p class="font-bold">Banner event</p>
-                        <img src="../../assets/events/banner/<?= $event['banner'] ?>" class="w-full md:w-[320px] rounded-md mt-4"
+                        <img src="../../assets/events/banner/<?= $event['banner'] ?>"
+                             class="w-full md:w-[320px] rounded-md mt-4"
                              alt="<?= $event['nama'] ?>">
                     </div>
                 </div>
