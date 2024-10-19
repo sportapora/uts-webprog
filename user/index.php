@@ -89,7 +89,7 @@ if (empty($events)) {
                 <p class="mb-2"><strong>Location:</strong> <?php echo htmlspecialchars($event['lokasi']); ?></p>
                 <p class="mb-2"><strong>Capacity:</strong> <?php echo htmlspecialchars($event['jumlah_maks']); ?></p>
                 <p class="mb-2"><strong>Description:</strong> <?php echo htmlspecialchars($event['deskripsi']); ?></p>
-                <img src="/assets/events/?php echo htmlspecialchars($event['banner']); ?>" alt="Event Banner" class="w-full h-auto mt-4" />
+                <img src="/assets/events/<?php echo htmlspecialchars($event['banner']); ?>" alt="Event Banner" class="w-full h-auto mt-4" />
 
                 <div class="flex justify-end mt-4">
                     <form action="/user/process/join_event.php" method="post">
