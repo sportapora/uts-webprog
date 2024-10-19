@@ -7,7 +7,7 @@ include '../../connection/connection.php';
 session_start();
 
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) header("location: /login.php");
-if ($_SESSION["role"] != "admin") {
+if ($_SESSION['user']["role"] != "admin") {
     die(403);
 }
 

@@ -23,7 +23,7 @@ if (isset($_POST['register'])) {
 
         // Optionally, you can set a session variable and redirect after successful registration
         $_SESSION['loggedin'] = true;
-        $_SESSION['user'] = ['username' => $username, 'email' => $email, 'role' => 'user'];
+        $_SESSION['user'] = ['username' => $username, 'email' => $email, 'role' => 'user', 'id' => $connection->lastInsertId()];
         header("Location: /user/index.php");
         exit;
 
@@ -133,8 +133,12 @@ if (isset($_POST['register'])) {
                         class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">
                     Register
                 </button>
-
             </form>
+
+            <div class="mt-8">
+                <p>Sudah memiliki akun? <a href="/login.php" class="text-blue-700 underline">Login</a> di sini
+                </p>
+            </div>
         </div>
     </div>
 </div>
