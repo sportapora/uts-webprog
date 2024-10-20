@@ -5,7 +5,7 @@ include 'layouts/header.php';
 include 'layouts/navbar.php';
 include 'connection/connection.php';
 
-$sql = 'SELECT id, nama, tanggal, waktu, lokasi, jumlah_maks, deskripsi, gambar, banner, status FROM events';
+$sql = 'SELECT id, nama_event, tanggal_event, waktu_event, lokasi, jumlah_maks, deskripsi, gambar, banner, status FROM events';
 $stmt = $connection->prepare($sql);
 $stmt->execute();
 $events = $stmt->fetchAll();

@@ -20,7 +20,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
       <span class="self-center text-2xl font-semibold whitespace-nowrap">Festivo!</span>
     </a>
 
-    <?php if ($current_page !== 'profile.php'): ?>
+    <?php if ($current_page !== 'profile.php' && $current_page !== 'dashboard.php'): ?>
       <!-- Search form (Desktop) -->
       <form action="/user/process/search.php" method="get" class="hidden md:flex items-center">
         <div class="relative">
