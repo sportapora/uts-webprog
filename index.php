@@ -106,7 +106,6 @@ if (isset($_SESSION['logout_message'])) {
     </div>
 </div>
 <!-- /Modal for event details -->
-<?php endforeach; ?>
 
 <script>
     document.getElementById('search-navbar').addEventListener('input', function() {
