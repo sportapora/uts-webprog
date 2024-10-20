@@ -5,7 +5,7 @@ if (isset($_GET['query']) && !empty(trim($_GET['query']))) {
     $searchTerm = htmlspecialchars(trim($_GET['query']));
     $searchTerm = "%{$searchTerm}%";
 
-    $sql = "SELECT id, nama, tanggal, waktu, lokasi, jumlah_maks, deskripsi, gambar 
+    $sql = "SELECT * 
             FROM events 
             WHERE nama LIKE ? OR deskripsi LIKE ?";
     $stmt = $connection->prepare($sql);
