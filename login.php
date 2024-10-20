@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+unset($_SESSION['errors']);
 require_once './vendor/autoload.php';
 include './connection/connection.php';
 
@@ -11,7 +11,7 @@ $validator = new Validator();
 
 if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]) {
     if ($_SESSION['user']['role'] == 'admin') header("Location: /admin");
-    else if ($_SESSION['user']['role'] == 'user') header("Location: /#");
+    else if ($_SESSION['user']['role'] == 'user') header("Location: /");
 }
 
 if (isset($_POST['login'])) {
@@ -25,7 +25,6 @@ if (isset($_POST['login'])) {
 
     if ($validation->fails()) {
         $_SESSION['errors'] = $validation->errors()->firstOfAll();
-        header("Location: /login.php");
     } else {
         try {
             $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
@@ -96,23 +95,6 @@ if (isset($_POST['login'])) {
                       d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                       aria-current="page">Home</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Events</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Users</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 <div class="bg-white h-screen">
@@ -156,7 +138,7 @@ if (isset($_POST['login'])) {
                     </div>
                     <?php if (isset($_SESSION['errors']['email'])): ?>
                         <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['email'] ?></p>
-                    <?php endif; unset($_SESSION['errors']['email']); ?>
+                    <?php endif; ?>
                 </div>
                 <div class="mb-8">
                     <div class="relative z-0">
@@ -169,7 +151,7 @@ if (isset($_POST['login'])) {
                     </div>
                     <?php if (isset($_SESSION['errors']['password'])): ?>
                         <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['password'] ?></p>
-                    <?php endif; unset($_SESSION['errors']['password']); ?>
+                    <?php endif; ?>
                 </div>
 
                 <button type="submit"

@@ -27,16 +27,16 @@ include "../layouts/header.php";
                            class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 No.
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Nama event
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Tanggal registrasi
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Aksi
                             </th>
                         </tr>
