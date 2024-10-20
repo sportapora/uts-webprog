@@ -4,7 +4,7 @@ session_start();
 
 if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]) {
     if ($_SESSION['user']['role'] == 'admin') header("Location: /admin");
-    else if ($_SESSION['user']['role'] == 'user') header("Location: /user");
+    else if ($_SESSION['user']['role'] == 'user') header("Location: /#");
 }
 
 if (isset($_POST['login'])) {
@@ -25,6 +25,10 @@ if (isset($_POST['login'])) {
             } else if ($user['role'] == 'user') {
                 header("Location: /user/index.php");
             }
+
+        } else if ($user['role'] == 'user') {
+            $_SESSION['role'] = 'user';
+            header("Location: index.php");
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Terdapat error! Silakan coba lagi.";
