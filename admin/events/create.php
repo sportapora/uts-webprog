@@ -15,20 +15,25 @@ include "../layouts/header.php";
                 <div class="mb-7">
                     <div class="relative z-0">
                         <input type="text" id="nama" name="nama"
-
-                               class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required/>
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['nama']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
                         <label for="nama"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Nama
-                            Event</label>
+                               class="absolute text-sm <?= isset($_SESSION['errors']['nama']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Nama Event</label>
                     </div>
+                    <?php if (isset($_SESSION['errors']['nama'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['nama'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['nama']); ?>
                 </div>
                 <div class="mb-7">
                     <label for="tanggal"
                            class="block mb-2 text-sm font-medium text-gray-900">Tanggal</label>
                     <input type="date" id="tanggal" name="tanggal"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                           required/>
+                           class="bg-gray-50 border <?php if (isset($_SESSION['errors']['tanggal'])) echo 'border-red-300'; else echo 'border-gray-300'; ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    />
+                    <?php if (isset($_SESSION['errors']['tanggal'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['tanggal'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['tanggal']); ?>
                 </div>
                 <div class="mb-7">
                     <label for="waktu"
@@ -43,48 +48,64 @@ include "../layouts/header.php";
                             </svg>
                         </div>
                         <input type="time" id="waktu" name="waktu"
-                               class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                               required/>
+                               class="bg-gray-50 border leading-none <?php if (isset($_SESSION['errors']['tanggal'])) echo 'border-red-300'; else echo 'border-gray-300'; ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        />
                     </div>
+                    <?php if (isset($_SESSION['errors']['waktu'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['waktu'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['waktu']); ?>
                 </div>
                 <div class="mb-7">
                     <div class="relative z-0">
                         <input type="text" id="lokasi" name="lokasi"
-
-                               class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required/>
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['lokasi']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
                         <label for="lokasi"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Lokasi
-                            Event</label>
+                               class="absolute text-sm <?= isset($_SESSION['errors']['lokasi']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Lokasi</label>
                     </div>
+                    <?php if (isset($_SESSION['errors']['lokasi'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['lokasi'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['lokasi']); ?>
                 </div>
                 <div class="mb-5">
                     <div class="relative z-0">
                         <input type="number" id="jumlah_maks" name="jumlah_maks"
-
-                               class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                               placeholder=" " required/>
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['jumlah_maks']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
                         <label for="jumlah_maks"
-                               class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Jumlah
-                            maks. partisipan</label>
+                               class="absolute text-sm <?= isset($_SESSION['errors']['jumlah_maks']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Jumlah maks. pendaftar</label>
                     </div>
+                    <?php if (isset($_SESSION['errors']['jumlah_maks'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['jumlah_maks'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['jumlah_maks']); ?>
                 </div>
                 <div class="mb-7">
                     <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
                     <textarea id="deskripsi" rows="10" name="deskripsi"
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+                              class="bg-gray-50 border <?php if (isset($_SESSION['errors']['deskripsi'])) echo 'border-red-300'; else echo 'border-gray-300'; ?> text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+                    <?php if (isset($_SESSION['errors']['deskripsi'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['deskripsi'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['deskripsi']); ?>
                 </div>
                 <div class="mb-7">
                     <label for="banner"
                            class="block mb-2 text-sm font-medium text-gray-900">Banner</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                    <input class="block w-full text-sm text-gray-900 border <?php if (isset($_SESSION['errors']['banner'])) echo 'border-red-300'; else echo 'border-gray-300'; ?> rounded-lg cursor-pointer bg-gray-50"
                            id="banner" name="banner" type="file">
+                    <?php if (isset($_SESSION['errors']['banner'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['banner'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['banner']); ?>
                 </div>
                 <div class="mb-10">
                     <label for="gambar"
                            class="block mb-2 text-sm font-medium text-gray-900">Gambar</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                    <input class="block w-full text-sm text-gray-900 border <?php if (isset($_SESSION['errors']['gambar'])) echo 'border-red-300'; else echo 'border-gray-300'; ?> rounded-lg cursor-pointer bg-gray-50"
                            id="gambar" name="gambar" type="file">
+                    <?php if (isset($_SESSION['errors']['gambar'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['gambar'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['gambar']); ?>
                 </div>
                 <button type="submit"
                         name="submit"

@@ -27,19 +27,19 @@ include "./layouts/header.php";
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     No.
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Nama Event
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Tanggal Event
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Status
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Dibuat pada
                                 </th>
                             </tr>
@@ -49,21 +49,21 @@ include "./layouts/header.php";
                             while ($data = $events->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr class="bg-white border-b">
                                     <th scope="row"
-                                        class="px-6 py-4">
+                                        class="px-6 py-4 bg-white">
                                         <?= $no++; ?>
                                     </th>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['nama']; ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['tanggal']; ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <span class="bg-<?php if ($data['status'] == 'open') echo 'green'; else if ($data['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-100 text-<?php if ($data['status'] == 'open') echo 'green'; else if ($data['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-800 font-medium me-2 px-2.5 py-0.5 rounded-full">
                                         <?= $data['status'] ?>
                                     </span>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['created_at']; ?>
                                     </td>
                                 </tr>
@@ -81,16 +81,16 @@ include "./layouts/header.php";
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     No.
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Username
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Email
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                     Dibuat pada
                                 </th>
                             </tr>
@@ -100,16 +100,16 @@ include "./layouts/header.php";
                             while ($data = $users->fetch(PDO::FETCH_ASSOC)): ?>
                                 <tr class="bg-white border-b">
                                     <th scope="row"
-                                        class="px-6 py-4">
+                                        class="px-6 py-4 bg-white">
                                         <?= $no++; ?>
                                     </th>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['username']; ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['email']; ?>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 bg-white">
                                         <?= $data['created_at']; ?>
                                     </td>
                                 </tr>
