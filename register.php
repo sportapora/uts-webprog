@@ -23,7 +23,7 @@ if (isset($_POST['register'])) {
 
         // Optionally, you can set a session variable and redirect after successful registration
         $_SESSION['loggedin'] = true;
-        $_SESSION['user'] = ['username' => $username, 'email' => $email, 'role' => 'user'];
+        $_SESSION['user'] = ['username' => $username, 'email' => $email, 'role' => 'user', 'id' => $connection->lastInsertId()];
         header("Location: /user/index.php");
         exit;
 
@@ -42,13 +42,30 @@ if (isset($_POST['register'])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet"/>
-    <title>Event Management - Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet">
+
+    <style>
+        #logo {
+            font-family: "Monoton", sans-serif;;
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+        }
+    </style>
+
+    <title>Festivo! - Dashboard</title>
 </head>
 <body>
 <nav class="bg-sky-100 border-gray-200">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap">Event Management</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-700" id="logo">Festivo!</span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -133,8 +150,12 @@ if (isset($_POST['register'])) {
                         class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">
                     Register
                 </button>
-
             </form>
+
+            <div class="mt-8">
+                <p>Sudah memiliki akun? <a href="/login.php" class="text-blue-700 underline">Login</a> di sini
+                </p>
+            </div>
         </div>
     </div>
 </div>

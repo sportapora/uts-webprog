@@ -12,19 +12,18 @@ if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     try {
-
         $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
         $query->execute(array($email));
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($user['email'] == $email && password_verify($password, $user['password'])) {
-            session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['user'] = $user;
 
             if ($user['role'] == 'admin') {
-                $_SESSION['role'] = 'admin';
                 header("Location: /admin");
+            } else if ($user['role'] == 'user') {
+                header("Location: /user/index.php");
             }
 
         } else if ($user['role'] == 'user') {
@@ -33,6 +32,7 @@ if (isset($_POST['login'])) {
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Terdapat error! Silakan coba lagi.";
+        header("Location: /login.php");
     }
 }
 
@@ -49,13 +49,30 @@ if (isset($_POST['login'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet"/>
 
-    <title>Event Management - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet">
+
+    <style>
+        #logo {
+            font-family: "Monoton", sans-serif;;
+        }
+
+        body {
+            font-family: "Rubik", sans-serif;
+            font-optical-sizing: auto;
+        }
+    </style>
+
+    <title>Festivo! - Login</title>
 </head>
 <body>
-<nav class="bg-white border-gray-200">
+<nav class="bg-sky-100 border-gray-200">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap">Event Management</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-700" id="logo">Festivo!</span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -67,7 +84,7 @@ if (isset($_POST['login'])) {
             </svg>
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
                 <li>
                     <a href="#"
                        class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
@@ -127,17 +144,18 @@ if (isset($_POST['login'])) {
                     <input type="password" id="password" name="password"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
-                <div class="mb-8">
-                    <p>Belum memiliki akun? <a href="/register.php" class="text-blue-700 underline">Register</a> di sini</p>
-                </div>
 
                 <button type="submit"
                         name="login"
                         class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     Login
                 </button>
-
             </form>
+
+            <div class="mt-8">
+                <p>Belum memiliki akun? <a href="/register.php" class="text-blue-700 underline">Register</a> di sini
+                </p>
+            </div>
         </div>
     </div>
 </div>
