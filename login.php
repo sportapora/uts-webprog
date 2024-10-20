@@ -1,6 +1,13 @@
 <?php
-include './connection/connection.php';
+
 session_start();
+
+require_once './vendor/autoload.php';
+include './connection/connection.php';
+
+use Rakit\Validation\Validator;
+
+$validator = new Validator();
 
 if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]) {
     if ($_SESSION['user']['role'] == 'admin') header("Location: /admin");
@@ -11,24 +18,34 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    try {
-        $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
-        $query->execute(array($email));
-        $user = $query->fetch(PDO::FETCH_ASSOC);
+    $validation = $validator->validate($_POST, [
+        'email' => 'required|email',
+        'password' => 'required|min:8'
+    ]);
 
-        if ($user['email'] == $email && password_verify($password, $user['password'])) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user'] = $user;
-
-            if ($user['role'] == 'admin') {
-                header("Location: /admin");
-            } else if ($user['role'] == 'user') {
-                header("Location: /user/index.php");
-            }
-        }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = "Terdapat error! Silakan coba lagi.";
+    if ($validation->fails()) {
+        $_SESSION['errors'] = $validation->errors()->firstOfAll();
         header("Location: /login.php");
+    } else {
+        try {
+            $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
+            $query->execute(array($email));
+            $user = $query->fetch(PDO::FETCH_ASSOC);
+
+            if ($user['email'] == $email && password_verify($password, $user['password'])) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user'] = $user;
+
+                if ($user['role'] == 'admin') {
+                    header("Location: /admin");
+                } else if ($user['role'] == 'user') {
+                    header("Location: /user/index.php");
+                }
+            }
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Terdapat error server! Silakan coba lagi.";
+            header("Location: /login.php");
+        }
     }
 }
 
@@ -129,16 +146,30 @@ if (isset($_POST['login'])) {
 
             <form action="" method="post" class="w-1/2">
                 <div class="mb-6">
-                    <label for="email"
-                           class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                    <input type="text" id="email" name="email"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <div class="relative z-0">
+                        <input type="text" id="email" name="email"
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['email']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
+                        <label for="email"
+                               class="absolute text-sm <?= isset($_SESSION['errors']['email']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Email</label>
+                    </div>
+                    <?php if (isset($_SESSION['errors']['email'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['email'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['email']); ?>
                 </div>
                 <div class="mb-8">
-                    <label for="password"
-                           class="block mb-2 text-sm font-medium text-gray-900">Passowrd</label>
-                    <input type="password" id="password" name="password"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <div class="relative z-0">
+                        <input type="password" id="password" name="password"
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['password']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
+                        <label for="password"
+                               class="absolute text-sm <?= isset($_SESSION['errors']['password']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Password</label>
+                    </div>
+                    <?php if (isset($_SESSION['errors']['password'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['password'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['password']); ?>
                 </div>
 
                 <button type="submit"

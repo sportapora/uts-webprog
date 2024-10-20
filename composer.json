@@ -2,7 +2,7 @@
     "name": "henrysalim/uts",
     "autoload": {
         "psr-4": {
-            "Henrysalim\\Uts\\": "admin/"
+            "Henrysalim\\Uts\\": "/"
         }
     },
     "authors": [
@@ -12,6 +12,6 @@
         }
     ],
     "require": {
-        "phpoffice/phpspreadsheet": "^3.3"
+        "rakit/validation": "^1.4"
     }
 }
