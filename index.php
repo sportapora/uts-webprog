@@ -24,15 +24,15 @@ if (isset($_SESSION['logout_message'])) {
 }
 
 ?>
-    <div class="h-screen">
-        <h1 class="text-4xl md:text-5xl text-center mt-24 font-bold">Welcome to <span id="logo"
+    <div class="h-auto lg:h-screen" style="background-image: url('/assets/background.jpg');background-repeat: no-repeat;background-size: cover;">
+        <h1 class="text-4xl md:text-5xl text-center pt-24 text-white font-bold">Welcome to <span id="logo"
                                                                                       class="text-blue-700">Festivo!</span>
         </h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-20 mt-10 md:mt-20 content-center p-4 pb-20"
              id="search-results">
             <?php foreach ($events as $event) : ?>
                 <!-- Card Events -->
-                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
                     <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>"
                        data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
                         <img class="rounded-t-lg w-full h-[200px] object-cover"
