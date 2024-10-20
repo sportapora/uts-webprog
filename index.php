@@ -5,6 +5,12 @@ include 'layouts/header.php';
 include 'layouts/navbar.php';
 include 'connection/connection.php';
 
+$sql = 'SELECT id, nama_event, tanggal_event, waktu_event, lokasi, jumlah_maks, deskripsi, gambar, banner, status FROM events';
+$stmt = $connection->prepare($sql);
+$stmt->execute();
+$events = $stmt->fetchAll();
+
+
 $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
 $users = $loggedIn ? $_SESSION['user'] : null;
 $user_id = $loggedIn ? $users['id'] : null;
@@ -161,6 +167,39 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h2 class="text-3xl mt-10 text-center text-white font-bold">Tidak ada event ditemukan</h2>
         <?php endif; ?>
     </div>
+</div>
+<!-- /Modal for event details -->
+
+<script>
+    document.getElementById('search-navbar').addEventListener('input', function() {
+        const query = this.value;
+        // Create an AJAX request
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/process/search.php?query=${query}`, true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                // Update the search results container with the response
+                document.getElementById('search-results').innerHTML = this.responseText;
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+<script>
+// Function to close modal
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add('hidden');
+}
+
+// Function to open modal
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('hidden');
+}
+</script>
+
 
 <?php
 include 'layouts/footer.php';
