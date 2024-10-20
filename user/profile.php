@@ -1,7 +1,7 @@
 <?php
 session_start();
-include './layouts/header.php';
-include './layouts/navbar.php';
+include '../layouts/header.php';
+include '../layouts/navbar.php';
 include '../connection/connection.php';
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -15,7 +15,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit();
 }
 ?>
-    <div class="flex justify-center">
+    <div class="flex justify-center pt-28">
         <?php if (isset($_SESSION["error"])) { ?>
             <div id="alert-3"
                  class="flex w-full mx-4 md:mx-0 md:w-1/2 mt-6 items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50"

@@ -11,7 +11,7 @@ $validator = new Validator();
 
 if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]) {
     if ($_SESSION['user']['role'] == 'admin') header("Location: /admin");
-    else if ($_SESSION['user']['role'] == 'user') header("Location: /user");
+    else if ($_SESSION['user']['role'] == 'user') header("Location: /#");
 }
 
 if (isset($_POST['login'])) {
