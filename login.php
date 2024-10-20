@@ -1,38 +1,50 @@
 <?php
-include './connection/connection.php';
+
 session_start();
+unset($_SESSION['errors']);
+require_once './vendor/autoload.php';
+include './connection/connection.php';
+
+use Rakit\Validation\Validator;
+
+$validator = new Validator();
 
 if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"]) {
     if ($_SESSION['user']['role'] == 'admin') header("Location: /admin");
-    else if ($_SESSION['user']['role'] == 'user') header("Location: /#");
+    else if ($_SESSION['user']['role'] == 'user') header("Location: /");
 }
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    try {
-        $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
-        $query->execute(array($email));
-        $user = $query->fetch(PDO::FETCH_ASSOC);
+    $validation = $validator->validate($_POST, [
+        'email' => 'required|email',
+        'password' => 'required|min:8'
+    ]);
 
-        if ($user['email'] == $email && password_verify($password, $user['password'])) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user'] = $user;
+    if ($validation->fails()) {
+        $_SESSION['errors'] = $validation->errors()->firstOfAll();
+    } else {
+        try {
+            $query = $connection->prepare("SELECT * FROM users WHERE email = ?");
+            $query->execute(array($email));
+            $user = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($user['role'] == 'admin') {
-                header("Location: /admin");
-            } else if ($user['role'] == 'user') {
-                header("Location: /user/index.php");
+            if ($user['email'] == $email && password_verify($password, $user['password'])) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user'] = $user;
+
+                if ($user['role'] == 'admin') {
+                    header("Location: /admin");
+                } else if ($user['role'] == 'user') {
+                    header("Location: /user/index.php");
+                }
             }
-
-        } else if ($user['role'] == 'user') {
-            $_SESSION['role'] = 'user';
-            header("Location: index.php");
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Terdapat error server! Silakan coba lagi.";
+            header("Location: /login.php");
         }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = "Terdapat error! Silakan coba lagi.";
-        header("Location: /login.php");
     }
 }
 
@@ -72,7 +84,7 @@ if (isset($_POST['login'])) {
 <nav class="bg-sky-100 border-gray-200">
     <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <span class="self-center text-2xl font-semibold whitespace-nowrap text-blue-700" id="logo">Festivo!</span>
+            <span class="self-center text-3xl font-semibold whitespace-nowrap text-blue-700" id="logo">Festivo!</span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -83,23 +95,6 @@ if (isset($_POST['login'])) {
                       d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                       aria-current="page">Home</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Events</a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Users</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 <div class="bg-white h-screen">
@@ -133,16 +128,30 @@ if (isset($_POST['login'])) {
 
             <form action="" method="post" class="w-1/2">
                 <div class="mb-6">
-                    <label for="email"
-                           class="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                    <input type="text" id="email" name="email"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <div class="relative z-0">
+                        <input type="text" id="email" name="email"
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['email']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
+                        <label for="email"
+                               class="absolute text-sm <?= isset($_SESSION['errors']['email']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Email</label>
+                    </div>
+                    <?php if (isset($_SESSION['errors']['email'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['email'] ?></p>
+                    <?php endif; ?>
                 </div>
                 <div class="mb-8">
-                    <label for="password"
-                           class="block mb-2 text-sm font-medium text-gray-900">Passowrd</label>
-                    <input type="password" id="password" name="password"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <div class="relative z-0">
+                        <input type="password" id="password" name="password"
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['password']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                               placeholder=" "/>
+                        <label for="password"
+                               class="absolute text-sm <?= isset($_SESSION['errors']['password']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Password</label>
+                    </div>
+                    <?php if (isset($_SESSION['errors']['password'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['password'] ?></p>
+                    <?php endif; ?>
                 </div>
 
                 <button type="submit"

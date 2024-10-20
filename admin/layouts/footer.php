@@ -9,6 +9,13 @@
         });
     }
 
+    if (document.getElementById("users-table-main") && typeof simpleDatatables.DataTable !== 'undefined') {
+        const dataTable = new simpleDatatables.DataTable("#users-table-main", {
+            searchable: true,
+            sortable: true
+        });
+    }
+
     if (document.getElementById("events_users-table") && typeof simpleDatatables.DataTable !== 'undefined') {
         const dataTable = new simpleDatatables.DataTable("#events_users-table", {
             searchable: true,

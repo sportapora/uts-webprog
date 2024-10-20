@@ -92,5 +92,5 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </form>
 
 <?php
-include './layouts/footer.php';
+include '../layouts/footer.php';
 ?>

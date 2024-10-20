@@ -52,22 +52,22 @@ include "../layouts/header.php";
                            class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 No.
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 Nama Event
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 Tanggal
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 Waktu
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3  bg-blue-300 text-white">
                                 Aksi
                             </th>
                         </tr>
@@ -79,19 +79,19 @@ include "../layouts/header.php";
                             ?>
                             <tr class="bg-white border-b">
                                 <th scope="row"
-                                    class="px-6 py-4">
+                                    class="px-6 py-4 bg-white">
                                     <?= $no; ?>
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $events['nama'] ?>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $events['tanggal'] ?>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $events['waktu'] ?>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <span class="bg-<?php if ($events['status'] == 'open') echo 'green'; else if ($events['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-100 text-<?php if ($events['status'] == 'open') echo 'green'; else if ($events['status'] == 'closed') echo 'yellow'; else echo 'red'; ?>-800 font-medium me-2 px-2.5 py-0.5 rounded-full">
                                         <?= $events['status'] ?>
                                     </span>

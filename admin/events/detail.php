@@ -133,19 +133,19 @@ include "../layouts/header.php";
                     <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Pendaftar</h2>
 
                     <table id="event-detail-table"
-                           class="w-full text-sm text-left rtl:text-right text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                           class="w-full text-sm text-left rtl:text-right text-gray-400">
+                        <thead class="text-sm uppercase text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 No.
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Email user
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Username
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 bg-blue-300 text-white">
                                 Waktu pendaftaran
                             </th>
                         </tr>
@@ -155,18 +155,18 @@ include "../layouts/header.php";
                         $no = 1;
                         while ($eventDetail = $queryEventDetail->fetch(PDO::FETCH_ASSOC)) {
                             ?>
-                            <tr class="bg-white border-b">
+                            <tr class="border-b">
                                 <th scope="row"
-                                    class="px-6 py-4">
+                                    class="px-6 py-4 bg-white">
                                     <?= $no; ?>
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $eventDetail['email'] ?>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $eventDetail['username'] ?>
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 bg-white">
                                     <?= $eventDetail['created_at'] ?>
                                 </td>
                             </tr>
