@@ -1,26 +1,31 @@
 <?php
+session_start();
+
 include 'layouts/header.php';
 include 'layouts/navbar.php';
 include 'connection/connection.php';
-
-session_start();
 
 $sql = 'SELECT id, nama, tanggal, waktu, lokasi, jumlah_maks, deskripsi, gambar, banner, status FROM events';
 $stmt = $connection->prepare($sql);
 $stmt->execute();
 $events = $stmt->fetchAll();
 
-$users = $_SESSION['user'];
-$user_id = $users['id'];
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+$users = $loggedIn ? $_SESSION['user'] : null;
+$user_id = $loggedIn ? $users['id'] : null;
 
 if (empty($events)) {
     $_SESSION['message'] = "No events found.";
 }
+
+if (isset($_SESSION['logout_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['logout_message'] . '</div>';
+    unset($_SESSION['logout_message']);
+}
+
 ?>
 
-<!-- <div class="max-w-md mx-auto p-8">p</div> -->
-
-<div class="grid grid-cols-4 gap-4 px-20 pt-28 content-center p-4">
+<div class="grid grid-cols-4 gap-4 px-20 pt-28 content-center p-4" id="search-results">
     <?php foreach ($events as $event) : ?>
         <!-- Card Events -->
         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -29,9 +34,9 @@ if (empty($events)) {
             </a>
             <div class="p-5">
                 <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>" data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><?php echo htmlspecialchars($event['nama']) ?></h5>
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><?php echo htmlspecialchars($event['nama']); ?></h5>
                 </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($event['deskripsi']) ?></p>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><?php echo htmlspecialchars($event['deskripsi']); ?></p>
                 <button data-modal-target="event_detail_<?php echo $event['id']; ?>" data-modal-toggle="event_detail_<?php echo $event['id']; ?>" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Read more
                     <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -71,9 +76,9 @@ if (empty($events)) {
                 <div class="flex justify-end mt-4">
                     <form action="/user/process/join_event.php" method="post">
                         <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
-                        <input type="hidden" name="user_id" value="<?php echo $users['id']; ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 
-                        <?php if (!isset($_SESSION['user'])) : ?>
+                        <?php if (!$loggedIn) : ?>
                             <a href="/login.php" class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5">
                                 Login to Join Event
                             </a>
@@ -82,7 +87,6 @@ if (empty($events)) {
                                 Event Cancelled
                             </button>
                         <?php else : ?>
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['id']; ?>">
                             <button class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5" type="submit">
                                 Join Event
                             </button>
@@ -95,6 +99,22 @@ if (empty($events)) {
 </div>
 <!-- /Modal for event details -->
 <?php endforeach; ?>
+
+<script>
+    document.getElementById('search-navbar').addEventListener('input', function() {
+        const query = this.value;
+        // Create an AJAX request
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/process/search.php?query=${query}`, true);
+        xhr.onload = function() {
+            if (this.status === 200) {
+                // Update the search results container with the response
+                document.getElementById('search-results').innerHTML = this.responseText;
+            }
+        };
+        xhr.send();
+    });
+</script>
 
 <script>
 // Function to close modal
