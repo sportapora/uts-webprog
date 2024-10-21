@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../../connection/connection.php';
 
 if (isset($_POST['delete_btn'])) {
@@ -7,7 +8,7 @@ if (isset($_POST['delete_btn'])) {
 
     $deleteQuery = $connection->prepare("DELETE FROM events_users WHERE event_id = ? AND user_id = ?");
     $deleteQuery->execute([$event_id, $user_id]);
-
+    $_SESSION['message'] = 'Berhasil membatalkan pendaftaran!';
     header("Location: /user/dashboard.php");
     exit();
 } else {
