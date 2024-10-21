@@ -29,16 +29,16 @@ if (isset($_POST['event_id'])) {
             $_SESSION['message'] = "Berhasil bergabung dengan acara!";
         }
 
-        header("Location: /user/profile.php");
+        header("Location: /user/dashboard.php");
         exit();
     } catch (PDOException $e) {
         error_log("Database error: " . $e->getMessage());
         $_SESSION['message'] = "Terjadi kesalahan. Silakan coba lagi.";
-        header("Location: /user/profile.php");
+        header("Location: /user/dashboard.php");
         exit();
     }
 } else {
     $_SESSION['message'] = "Permintaan tidak valid.";
-    header("Location: /user/profile.php");
+    header("Location: /index.php");
     exit();
 }
