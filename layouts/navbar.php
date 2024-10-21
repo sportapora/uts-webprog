@@ -29,7 +29,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </svg>
                 <span class="sr-only">Search</span>
             </button>
-            <?php if ($current_page !== 'profile.php'): ?>
+            <?php if ($current_page !== 'profile.php' && $current_page !== 'dashboard.php'): ?>
                 <div class="relative hidden md:block">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500" aria-hidden="true"
@@ -61,11 +61,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <!-- Dropdown menu -->
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
                          id="user-dropdown-1">
-                        <div class="px-4 py-3">
-                            <a href="/user/profile.php">
-                                <span class="block text-sm text-gray-900"><?php echo $username; ?></span>
-                                <span class="block text-sm text-gray-500 truncate"><?php echo $email; ?></span>
-                            </a>
+                        <div class="px-4 py-3">                            
+                            <span class="block text-sm text-gray-900"><?php echo $username; ?></span>
+                            <span class="block text-sm text-gray-500 truncate"><?php echo $email; ?></span>
                         </div>
                         <ul class="pt-2" aria-labelledby="user-menu-button">
                             <li class="mb-2">

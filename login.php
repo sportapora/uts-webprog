@@ -38,7 +38,7 @@ if (isset($_POST['login'])) {
                 if ($user['role'] == 'admin') {
                     header("Location: /admin");
                 } else if ($user['role'] == 'user') {
-                    header("Location: /user/index.php");
+                    header("Location: /index.php");
                 }
             }
         } catch (PDOException $e) {
