@@ -29,7 +29,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </svg>
                 <span class="sr-only">Search</span>
             </button>
-            <?php if ($current_page !== 'profile.php' && $current_page !== 'dashboard.php'): ?>
+            <?php if ($current_page !== 'profile.php' && $current_page !== 'dashboard.php' && $current_page !== 'why-us.php'): ?>
                 <div class="relative hidden md:block">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500" aria-hidden="true"
