@@ -24,7 +24,7 @@ if (!$event) header("location: /admin/events");
 
 include "../layouts/header.php";
 ?>
-    <div class="bg-white text-gray-900 h-auto pb-10">
+    <div class="bg-white text-gray-900">
         <div class="max-w-screen-2xl flex flex-col mx-auto p-4">
             <h1 class="text-3xl font-bold">Event Detail: <?= $event['nama'] ?></h1>
 

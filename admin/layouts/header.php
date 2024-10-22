@@ -111,4 +111,4 @@
         </div>
     </div>
 </nav>
-<div class="bg-white h-screen mb-64 md:mb-48">
+<div class="bg-white min-h-screen mb-64 md:mb-48">
