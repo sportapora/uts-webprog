@@ -158,7 +158,11 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <h2 class="text-3xl mt-10 text-center text-white font-bold">Tidak ada event ditemukan</h2>
+            <div class="flex mt-48 items-center justify-center mx-10">
+                <div class="p-4 rounded-lg bg-sky-200 text-gray-900 flex items-center justify-center w-full md:w-1/2">
+                    <h2 class="text-2xl lg:text-4xl text-center font-bold">Tidak ada event ditemukan!</h2>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 
