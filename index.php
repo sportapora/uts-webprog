@@ -62,12 +62,11 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($events as $event) : ?>
                     <!-- Card Events -->
                     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md">
-                        <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>"
-                           data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
-                            <img class="rounded-t-lg w-full h-[200px] object-cover"
-                                 src="/assets/events/gambar/<?php echo htmlspecialchars($event['gambar']); ?>"
-                                 alt="Event Image"/>
-                        </a>
+                        <img class="rounded-t-lg w-full h-[200px] object-cover cursor-pointer"
+                             data-modal-target="event_detail_<?php echo $event['id']; ?>"
+                             data-modal-toggle="event_detail_<?php echo $event['id']; ?>"
+                             src="/assets/events/gambar/<?php echo htmlspecialchars($event['gambar']); ?>"
+                             alt="Event Image"/>
                         <div class="p-5">
                             <a href="#" data-modal-target="event_detail_<?php echo $event['id']; ?>"
                                data-modal-toggle="event_detail_<?php echo $event['id']; ?>">
