@@ -1,9 +1,9 @@
 <?php
 session_start();
+$_SESSION['message'] = 'Bye-bye!';
 
-$_SESSION['logout_message'] = "You have successfully logged out.";
+unset($_SESSION['loggedin']);
+unset($_SESSION['user']);
 
-session_destroy();
-
-header("Location: /index.php");
+header("Location: /");
 exit();

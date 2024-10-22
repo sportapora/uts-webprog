@@ -1,15 +1,25 @@
 <?php
+
 session_start();
 unset($_SESSION['errors']);
+include './connection/connection.php';
 require_once './vendor/autoload.php';
+
 use Rakit\Validation\Validator;
+
 $validator = new Validator();
 
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]) {
-    header("Location: /user/index.php");
-    exit;
+    header("Location: /");
 }
+
 if (isset($_POST['register'])) {
+    $users = $connection->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+    $users->execute([$_POST['username'], $_POST['email']]);
+    if($users->rowCount() > 0) {
+    $_SESSION['error'] = "Username atau email sudah ada!";
+    }
+
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -20,19 +30,20 @@ if (isset($_POST['register'])) {
         'password' => 'required|min:8'
     ]);
 
-    $hashedPassword = !$validation->fails() ? password_hash($password, PASSWORD_DEFAULT) : null;
-
     if ($validation->fails()) {
         $_SESSION['errors'] = $validation->errors()->firstOfAll();
     } else {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
         try {
             $query = $connection->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
             $query->execute([$username, $email, $hashedPassword, 'user']);
 
             $_SESSION['loggedin'] = true;
+            $_SESSION['message'] = 'Welcome to Festivo, ' . $username . '!';
             $_SESSION['user'] = ['username' => $username, 'email' => $email, 'role' => 'user', 'id' => $connection->lastInsertId()];
-            header("Location: /user/index.php");
 
+            header("Location: /");
         } catch (PDOException $e) {
             $_SESSION['error'] = "Terdapat error server! Silakan coba lagi.";
         }
@@ -122,12 +133,13 @@ if (isset($_POST['register'])) {
                                class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['username']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
                                placeholder=" "/>
                         <label for="username"
-                               class="absolute text-sm <?= isset($_SESSION['errors']['username']) ? 'text-red-500' : 'text-gray-500'?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                               class="absolute text-sm <?= isset($_SESSION['errors']['username']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                             Username</label>
                     </div>
                     <?php if (isset($_SESSION['errors']['username'])): ?>
                         <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['username'] ?></p>
-                        <?php endif; ?>
+                    <?php endif;
+                    ?>
                 </div>
                 <div class="mb-6">
                     <div class="relative z-0">
@@ -135,12 +147,13 @@ if (isset($_POST['register'])) {
                                class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['email']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
                                placeholder=" "/>
                         <label for="email"
-                               class="absolute text-sm <?= isset($_SESSION['errors']['email']) ? 'text-red-500' : 'text-gray-500'?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                               class="absolute text-sm <?= isset($_SESSION['errors']['email']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                             Email</label>
                     </div>
                     <?php if (isset($_SESSION['errors']['email'])): ?>
                         <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['email'] ?></p>
-                    <?php endif; ?>
+                    <?php endif;
+                    ?>
                 </div>
                 <div class="mb-8">
                     <div class="relative z-0">
@@ -148,12 +161,13 @@ if (isset($_POST['register'])) {
                                class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['password']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
                                placeholder=" "/>
                         <label for="password"
-                               class="absolute text-sm <?= isset($_SESSION['errors']['password']) ? 'text-red-500' : 'text-gray-500'?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                               class="absolute text-sm <?= isset($_SESSION['errors']['password']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                             Password</label>
                     </div>
                     <?php if (isset($_SESSION['errors']['password'])): ?>
                         <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['password'] ?></p>
-                    <?php endif; ?>
+                    <?php endif;
+                    ?>
                 </div>
 
                 <button type="submit"
