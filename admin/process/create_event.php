@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     $tanggal = $_POST['tanggal'];
     $waktu = $_POST['waktu'];
     $lokasi = $_POST['lokasi'];
-    $jumlah_maks = $_POST['jumlah_maks'];
+    $capacity = $_POST['capacity'];
     $deskripsi = $_POST['deskripsi'];
 
     $gambar = $_FILES['gambar']['name'];
@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
         'tanggal' => 'required|date',
         'waktu' => 'required',
         'lokasi' => 'required',
-        'jumlah_maks' => 'required|numeric',
+        'capacity' => 'required|numeric',
         'deskripsi' => 'required',
         'gambar' => 'required|uploaded_file:0,4M,png,jpg,jpeg,webp',
         'banner' => 'required|uploaded_file:0,4M,png,jpg,jpeg,webp'
@@ -41,8 +41,8 @@ if (isset($_POST['submit'])) {
             move_uploaded_file($tmpGambar, "../../assets/events/gambar/$gambar");
             move_uploaded_file($tmpBanner, "../../assets/events/banner/$banner");
 
-            $statement = $connection->prepare('INSERT INTO events (nama, tanggal, waktu, lokasi, jumlah_maks, deskripsi, gambar, banner) VALUE (?, ?, ?, ?, ?, ?, ?, ?)');
-            $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $jumlah_maks, $deskripsi, $gambar, $banner));
+            $statement = $connection->prepare('INSERT INTO events (nama, tanggal, waktu, lokasi, capacity, deskripsi, gambar, banner) VALUE (?, ?, ?, ?, ?, ?, ?, ?)');
+            $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $capacity, $deskripsi, $gambar, $banner));
 
             $_SESSION['message'] = "Berhasil menambahkan event!";
             header("location: /admin/events");
