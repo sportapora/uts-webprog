@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
     $tanggal = $_POST['tanggal'];
     $waktu = $_POST['waktu'];
     $lokasi = $_POST['lokasi'];
-    $jumlah_maks = $_POST['jumlah_maks'];
+    $capacity = $_POST['capacity'];
     $deskripsi = $_POST['deskripsi'];
     $status = $_POST['status'];
 
@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
         'tanggal' => 'required|date',
         'waktu' => 'required',
         'lokasi' => 'required',
-        'jumlah_maks' => 'required|numeric',
+        'capacity' => 'required|numeric',
         'deskripsi' => 'required',
         'gambar' => 'nullable|uploaded_file:0,4M,png,jpg,jpeg,webp',
         'banner' => 'nullable|uploaded_file:0,4M,png,jpg,jpeg,webp'
@@ -57,8 +57,8 @@ if (isset($_POST['submit'])) {
                 move_uploaded_file($tmpBanner, "../../assets/events/banner/$banner");
             }
 
-            $statement = $connection->prepare('UPDATE events SET nama = ?, tanggal = ? , waktu = ?, lokasi = ?, jumlah_maks = ?, deskripsi = ?, gambar = ?, banner = ?, status = ?, updated_at = ? WHERE id = ?');
-            $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $jumlah_maks, $deskripsi, $gambar, $banner, $status, date('Y-m-d H:i:s'), $id));
+            $statement = $connection->prepare('UPDATE events SET nama = ?, tanggal = ? , waktu = ?, lokasi = ?, capacity = ?, deskripsi = ?, gambar = ?, banner = ?, status = ?, updated_at = ? WHERE id = ?');
+            $statement->execute(array($nama, $tanggal, $waktu, $lokasi, $capacity, $deskripsi, $gambar, $banner, $status, date('Y-m-d H:i:s'), $id));
 
             $_SESSION['message'] = "Berhasil mengupdate data event!";
             header("location: /admin/events");

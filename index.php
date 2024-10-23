@@ -131,7 +131,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <strong>Location:</strong> <?php echo htmlspecialchars($event['lokasi']); ?>
                                         </p>
                                         <p class="mb-2">
-                                            <strong>Capacity:</strong> <?php echo htmlspecialchars($event['jumlah_maks']); ?>
+                                            <strong>Capacity:</strong> <?php echo htmlspecialchars($event['capacity']); ?>
                                         </p>
                                         <p class="mb-2">
                                             <strong>Description:</strong> <?php echo htmlspecialchars($event['deskripsi']); ?>
@@ -156,7 +156,12 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                         type="button" disabled>
                                                     Event Closed
                                                 </button>
-                                            <?php else : ?>
+                                            <?php elseif ($event['status'] === 'full') : ?>
+                                                <button class="text-black font-bold bg-red-300 cursor-not-allowed rounded-lg text-sm px-5 py-2.5"
+                                                        type="button" disabled>
+                                                    Event Full
+                                                </button>
+                                            <?php else :?>
                                             <form action="/user/process/join_event.php" method="post">
                                                 <input type="hidden" name="event_id"
                                                        value="<?php echo $event['id']; ?>">
