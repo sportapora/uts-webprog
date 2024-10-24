@@ -70,16 +70,16 @@ include "../layouts/header.php";
                 </div>
                 <div class="mb-5">
                     <div class="relative z-0">
-                        <input type="number" id="jumlah_maks" name="jumlah_maks"
-                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['jumlah_maks']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
+                        <input type="number" id="capacity" name="capacity"
+                               class="block py-2.5 px-0 w-full text-sm  bg-transparent border-0 border-b-2 <?= isset($_SESSION['errors']['capacity']) ? 'border-red-300 focus:border-red-600' : 'text-gray-900 border-gray-300 focus:border-blue-600' ?> appearance-none focus:outline-none focus:ring-0 peer"
                                placeholder=" "/>
-                        <label for="jumlah_maks"
-                               class="absolute text-sm <?= isset($_SESSION['errors']['jumlah_maks']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                        <label for="capacity"
+                               class="absolute text-sm <?= isset($_SESSION['errors']['capacity']) ? 'text-red-500' : 'text-gray-500' ?> duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                             Jumlah maks. pendaftar</label>
                     </div>
-                    <?php if (isset($_SESSION['errors']['jumlah_maks'])): ?>
-                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['jumlah_maks'] ?></p>
-                    <?php endif; unset($_SESSION['errors']['jumlah_maks']); ?>
+                    <?php if (isset($_SESSION['errors']['capacity'])): ?>
+                        <p class="mt-2 text-sm text-red-600"><?= $_SESSION['errors']['capacity'] ?></p>
+                    <?php endif; unset($_SESSION['errors']['capacity']); ?>
                 </div>
                 <div class="mb-7">
                     <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900">Deskripsi</label>
