@@ -19,8 +19,8 @@ if (isset($_POST['event_id'])) {
         $statement = $connection->prepare($checkQuery);
         $statement->execute([':user_id' => $user_id, ':event_id' => $event_id]);
 
-        if ($statement->fetchColumn()) {
-            $_SESSION['message'] = "Anda sudah terdaftar di acara ini!";
+        if ($statement->rowCount() > 0) {
+            $_SESSION['error'] = "Anda sudah terdaftar di acara ini!";
         } else {
             // Cek kapasitas event
             $capacityQuery = "SELECT capacity, status FROM events WHERE id = :event_id";
@@ -42,13 +42,12 @@ if (isset($_POST['event_id'])) {
                 $statement = $connection->prepare($insertQuery);
                 $statement->execute([':user_id' => $user_id, ':event_id' => $event_id]);
 
-                // Kurangi kapasitas
-                $updateCapacityQuery = "UPDATE events SET capacity = capacity - 1 WHERE id = :event_id";
-                $statement = $connection->prepare($updateCapacityQuery);
-                $statement->execute([':event_id' => $event_id]);
+                $countEventsUsers = $connection->prepare("select event_id, count(*) as count_users from events_users where event_id = ? group by event_id");
+                $countEventsUsers->execute([$event_id]);
+                $count = ($countEventsUsers->fetchAll())['count_users'];
 
-                // Cek kapasitas setelah dikurangi = 0?, jika ya, status = 'full'
-                if ($capacity - 1 == 0) {
+                // Cek kapasitas = perhitungan yang daftar event?, jika ya, status = 'full'
+                if ($capacity == $count) {
                     $updateStatusQuery = "UPDATE events SET status = 'full' WHERE id = :event_id";
                     $statement = $connection->prepare($updateStatusQuery);
                     $statement->execute([':event_id' => $event_id]);
@@ -58,8 +57,6 @@ if (isset($_POST['event_id'])) {
                 $inTransaction = false;
 
                 $_SESSION['message'] = "Berhasil bergabung dengan acara!";
-            } else {
-                $_SESSION['message'] = "Kapasitas acara sudah penuh!";
             }
         }
 

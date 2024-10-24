@@ -9,7 +9,11 @@ if ($_SESSION['user']["role"] != "admin") {
     die(403);
 }
 
-$queryEvent = $connection->prepare("SELECT * FROM events WHERE id = ?");
+$queryEvent = $connection->prepare("SELECT e.id, e.tanggal, e.waktu, e.capacity, e.created_at, e.updated_at, e.status, e.gambar, e.deskripsi, e.banner, count(u.id) as registrant FROM events e
+                                         left join events_users eu on e.id = eu.event_id
+                                         left join users u on eu.user_id = u.id
+                                         WHERE e.id = ?
+                                         group by e.id, e.tanggal, e.waktu, e.capacity, e.created_at, e.updated_at, e.status, e.gambar, e.deskripsi, e.banner");
 $queryEvent->execute([$_GET["id"]]);
 
 $event = $queryEvent->fetch(PDO::FETCH_ASSOC);
@@ -67,7 +71,7 @@ include "../layouts/header.php";
                                 <circle cx="10" cy="8" r="5"/>
                                 <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
                             </svg>
-                            Jumlah maks. peserta event
+                            Total pendaftar
                         </p>
                         <p class="flex flex-row items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -101,7 +105,7 @@ include "../layouts/header.php";
                     <div class="space-y-3">
                         <p class="font-semibold"><?= $event['tanggal'] ?></p>
                         <p class="font-semibold"><?= $event['waktu'] ?></p>
-                        <p class="font-semibold"><?= $event['jumlah_maks'] ?></p>
+                        <p class="font-semibold"><?= $event['registrant'] . '/' . $event['capacity'] ?></p>
                         <p class="font-semibold"><?= $event['created_at'] ?></p>
                         <p class="font-semibold"><?= $event['updated_at'] ?></p>
                         <p class="font-semibold">
