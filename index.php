@@ -9,16 +9,21 @@ $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
 $users = $loggedIn ? $_SESSION['user'] : null;
 $user_id = $loggedIn ? $users['id'] : null;
 
+$eventsUsers = $connection->prepare("SELECT * FROM events_users");
+$eventsUsers->execute();
+
 if (isset($_GET['query'])) {
     $searchTerm = htmlspecialchars(trim($_GET['query']));
 
     $sql = "SELECT * 
-            FROM events 
+            FROM events
             WHERE nama LIKE ? OR deskripsi LIKE ?";
     $stmt = $connection->prepare($sql);
     $stmt->execute(["%$searchTerm%", "%$searchTerm%"]);
 } else {
-    $sql = 'SELECT * FROM events ORDER BY created_at DESC';
+    $sql = 'SELECT *
+            FROM events
+            ORDER BY created_at DESC';
     $stmt = $connection->prepare($sql);
     $stmt->execute();
 }
@@ -75,6 +80,12 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="mb-3 font-normal text-gray-700"><?php echo htmlspecialchars(substr($event['deskripsi'], 0, 150));
                                 echo
                                 strlen($event['deskripsi']) > 150 ? '...' : '' ?></p>
+
+                            <div class="mb-1 text-base font-medium text-blue-700 dark:text-blue-500">0 / 950</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+                            </div>
+
                             <div class="flex flex-row justify-between items-center">
                                 <button data-modal-target="event_detail_<?php echo $event['id']; ?>"
                                         data-modal-toggle="event_detail_<?php echo $event['id']; ?>"
