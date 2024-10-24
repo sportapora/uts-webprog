@@ -26,7 +26,7 @@ if (isset($_GET['query'])) {
             left join events_users eu on e.id = eu.event_id
             left join users u on eu.user_id = u.id
             group by e.id, e.nama, e.status, e.capacity, e.deskripsi, e.gambar, e.banner, e.tanggal, e.waktu, e.lokasi, e.created_at
-            ORDER BY e.created_at DESC';
+            ORDER BY e.created_at DESC LIMIT 12';
     $stmt = $connection->prepare($sql);
     $stmt->execute();
 }
@@ -87,7 +87,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="mb-1 text-base font-medium text-blue-700"><?= htmlspecialchars($event['count_users']) . '/' . htmlspecialchars($event['capacity']); ?></div>
                             <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                                <div class="bg-<?php if((int) $event['percentage'] > 0) echo 'blue-600'; elseif((int) $event['percentage'] > 80) echo 'yellow-600'; elseif($event['percentage'] = 100) echo 'red-600'; ?> h-2.5 rounded-full" style="width: <?= (int) $event['percentage'] ?>%"></div>
+                                <div class="bg-<?php if((int) $event['percentage'] >= 0) echo 'blue-600'; elseif((int) $event['percentage'] > 80) echo 'yellow-600'; elseif($event['percentage'] = 100) echo 'red-600'; ?> h-2.5 rounded-full" style="width: <?= (int) $event['percentage'] ?>%"></div>
                             </div>
 
                             <div class="flex flex-row justify-between items-center">
