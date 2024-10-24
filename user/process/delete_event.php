@@ -4,7 +4,7 @@ include_once '../../connection/connection.php';
 
 if (isset($_POST['delete_btn'])) {
     $event_id = intval($_POST['event_id']);
-    $user_id = intval($_POST['user_id']);
+    $user_id = intval($_SESSION['user']['id']);
 
     try {
         $connection->beginTransaction();
@@ -12,17 +12,17 @@ if (isset($_POST['delete_btn'])) {
         $delete = $connection->prepare("DELETE FROM events_users WHERE event_id = ? AND user_id = ?");
         $delete->execute([$event_id, $user_id]);
 
-        // tambahkan kapasitas apabila batal mengikuti event
-        $updateCapacity = $connection->prepare("UPDATE events SET capacity = capacity + 1 WHERE id = ?");
-        $updateCapacity->execute([$event_id]);
-
-        // cek kapasitas baru dan update status
         $checkCapacity = $connection->prepare("SELECT capacity FROM events WHERE id = ?");
         $checkCapacity->execute([$event_id]);
-        $capacity = $checkCapacity->fetchColumn();
+        $eventData = $checkCapacity->fetch(PDO::FETCH_ASSOC);
+        $currentCapacity = $eventData['capacity'];
 
-        if ($capacity > 0) {
-            // Ubah status menjadi "open" kalo kapasitasnya > 0
+        if ($currentCapacity < $originalCapacity) {
+            $updateCapacity = $connection->prepare("UPDATE events SET capacity = capacity + 1 WHERE id = ?");
+            $updateCapacity->execute([$event_id]);
+        }
+
+        if ($currentCapacity + 1 > 0) {
             $updateStatus = $connection->prepare("UPDATE events SET status = 'open' WHERE id = ?");
             $updateStatus->execute([$event_id]);
         }

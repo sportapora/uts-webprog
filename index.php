@@ -33,7 +33,7 @@ if (isset($_GET['query'])) {
 
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-    <div class="h-<?= count($events) > 2 ? 'auto' : 'screen' ?> lg:h-screen"
+    <div class="h-<?= count($events) > 2 ? 'auto' : 'screen' ?> lg:min-h-screen"
          style="background-image: url('/assets/background.jpg');background-repeat: no-repeat;background-size: cover; background-position: center">
         <h1 class="text-4xl md:text-5xl text-center pt-24 text-white font-bold">Welcome to <span id="logo"
                                                                                                  class="text-blue-700">Festivo!</span>
